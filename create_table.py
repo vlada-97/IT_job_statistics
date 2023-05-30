@@ -22,4 +22,4 @@ def create_vacancies_table(it_vacancies, title):
             ]
         )
     jobs_table = AsciiTable(vacancies_table, title)
-    print(jobs_table.table)
+    return jobs_table.table
