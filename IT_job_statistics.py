@@ -97,7 +97,7 @@ def fetch_superjob_vacancies(language, secret_key):
                 raise ex
         response = response.json()
         for item in response.get('objects'):
-            all_vacancies.extend(item)
+            all_vacancies.append(item)
         if not response.get('more'):
             break
     vacancies_found = response.get('total')
@@ -157,7 +157,5 @@ if __name__ == "__main__":
         except requests.exceptions.HTTPError as ex:
             print(f"HTTP error occurred during  API request: {ex}")
 
-
     print(create_vacancies_table(hh_it_vacancies, "HeadHunter Moscow"))
     print(create_vacancies_table(sj_it_vacancies, "SuperJob Moscow"))
-
