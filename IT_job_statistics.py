@@ -104,7 +104,7 @@ def fetch_superjob_vacancies(language, secret_key):
                 raise ex
         response = response.json()
         for item in response.get('objects'):
-            all_vacancies.append(item)
+            all_vacancies.extend(item)
         if not response.get('more'):
             break
     vacancies_found = response.get('total')
