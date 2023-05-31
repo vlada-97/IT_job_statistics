@@ -14,13 +14,6 @@ IT_LANGUAGES = [
 ]
 
 
-class GetVacanciesError(Exception):
-    def __init__(self, response, message='Error getting vacancies'):
-        self.response = response
-        self.message = message
-        super().__init__(self.message)
-
-
 def predict_rub_salary(salary_from, salary_to):
     if salary_from and salary_to:
         return (salary_from + salary_to) / 2
@@ -163,13 +156,8 @@ if __name__ == "__main__":
 
         except requests.exceptions.HTTPError as ex:
             print(f"HTTP error occurred during  API request: {ex}")
-        except GetVacanciesError as ex:
-            print(ex)
-            continue
 
-    try:
-        print(create_vacancies_table(hh_it_vacancies, "HeadHunter Moscow"))
-        print(create_vacancies_table(sj_it_vacancies, "SuperJob Moscow"))
-    except BaseException as error:  # KeyError, TypeError
-        print(
-            f"Ошибка анализа информации с сайта: {error}")
+
+    print(create_vacancies_table(hh_it_vacancies, "HeadHunter Moscow"))
+    print(create_vacancies_table(sj_it_vacancies, "SuperJob Moscow"))
+
