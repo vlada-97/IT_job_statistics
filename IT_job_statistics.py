@@ -72,17 +72,16 @@ def calculate_average_salary_hh(vacancies):
             continue
         salary_from = salary.get("from")
         salary_to = salary.get("to")
-        predict_salary = predict_rub_salary(salary_from, salary_to)
-        if predict_salary:
-            total_salary += predict_salary
+        salary = predict_rub_salary(salary_from, salary_to)
+        if salary:
+            total_salary += salary
             vacancies_count += 1
-    average_salary = total_salary / vacancies_count if vacancies_count > 0 else 0
+    average_salary = total_salary / vacancies_count
     return vacancies_count, average_salary
 
 
-def fetch_superjob_vacancies(language):
+def fetch_superjob_vacancies(language, secret_key):
     sj_url = "https://api.superjob.ru/2.0/vacancies/"
-    secret_key = os.environ["SECRET_KEY"]
     params = {
         "keyword": f"Программист {language}",
         "town": "Москва"
@@ -122,20 +121,22 @@ def calculate_average_salary_sj(vacancies):
         if predict_salary:
             total_salary += predict_salary
             vacancies_count += 1
-    if vacancies_count:
-        average_salary = total_salary / vacancies_count
-        return vacancies_count, average_salary
+    average_salary = total_salary / vacancies_count
+    return vacancies_count, average_salary
 
 
 if __name__ == "__main__":
     load_dotenv()
+    secret_key = os.environ["SECRET_KEY"]
 
     hh_it_vacancies = []
     sj_it_vacancies = []
 
     for language in IT_LANGUAGES:
         try:
-            hh_vacancies, vacancies_found = fetch_hh_vacancies(language)
+
+            hh_vacancies, vacancies_found = fetch_hh_vacancies(
+                language)
             vacancies_count, average_salary = calculate_average_salary_hh(
                 hh_vacancies)
             hh_it_vacancies.append(
@@ -147,7 +148,8 @@ if __name__ == "__main__":
 
                 })
 
-            sj_vacancies, vacancies_found = fetch_superjob_vacancies(language)
+            sj_vacancies, vacancies_found = fetch_superjob_vacancies(
+                language, secret_key)
             vacancies_count, average_salary = calculate_average_salary_sj(
                 sj_vacancies)
             sj_it_vacancies.append(
