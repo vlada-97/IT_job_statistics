@@ -72,11 +72,11 @@ def calculate_average_salary_hh(vacancies):
             continue
         salary_from = salary.get("from")
         salary_to = salary.get("to")
-        predict_salary = predict_rub_salary(salary_from, salary_to)
-        if predict_salary:
-            total_salary += predict_salary
+        salary = predict_rub_salary(salary_from, salary_to)
+        if salary:
+            total_salary += salary
             vacancies_count += 1
-    average_salary = total_salary / vacancies_count if vacancies_count > 0 else 0
+    average_salary = total_salary / vacancies_count
     return vacancies_count, average_salary
 
 
@@ -122,9 +122,8 @@ def calculate_average_salary_sj(vacancies):
         if predict_salary:
             total_salary += predict_salary
             vacancies_count += 1
-    if vacancies_count:
-        average_salary = total_salary / vacancies_count
-        return vacancies_count, average_salary
+    average_salary = total_salary / vacancies_count
+    return vacancies_count, average_salary
 
 
 if __name__ == "__main__":
