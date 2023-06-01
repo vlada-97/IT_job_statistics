@@ -69,7 +69,8 @@ def calculate_average_salary_hh(vacancies):
         if salary:
             total_salary += salary
             vacancies_count += 1
-    average_salary = total_salary / vacancies_count
+    if vacancies_count:
+        average_salary = total_salary / vacancies_count
     return vacancies_count, average_salary
 
 
@@ -100,7 +101,8 @@ def fetch_superjob_vacancies(language, secret_key):
             all_vacancies.append(item)
         if not response.get('more'):
             break
-    vacancies_found = response.get('total')
+    if vacancies_count:
+        vacancies_found = response.get('total')
     return all_vacancies, vacancies_found
 
 
@@ -110,9 +112,9 @@ def calculate_average_salary_sj(vacancies):
     for vacancy in vacancies:
         salary_from = vacancy.get("payment_from")
         salary_to = vacancy.get("payment_to")
-        predict_salary = predict_rub_salary(salary_from, salary_to)
-        if predict_salary:
-            total_salary += predict_salary
+        salary = predict_rub_salary(salary_from, salary_to)
+        if salary:
+            total_salary += salary
             vacancies_count += 1
     average_salary = total_salary / vacancies_count
     return vacancies_count, average_salary
@@ -127,7 +129,6 @@ if __name__ == "__main__":
 
     for language in IT_LANGUAGES:
         try:
-
             hh_vacancies, vacancies_found = fetch_hh_vacancies(
                 language)
             vacancies_count, average_salary = calculate_average_salary_hh(
@@ -138,7 +139,6 @@ if __name__ == "__main__":
                     "vacancies_found": vacancies_found,
                     "vacancies_processed": vacancies_count,
                     "average_salary": round(average_salary),
-
                 })
 
             sj_vacancies, vacancies_found = fetch_superjob_vacancies(
@@ -151,9 +151,7 @@ if __name__ == "__main__":
                     "vacancies_found": vacancies_found,
                     "vacancies_processed": vacancies_count,
                     "average_salary": round(average_salary),
-
                 })
-
         except requests.exceptions.HTTPError as ex:
             print(f"HTTP error occurred during  API request: {ex}")
 
