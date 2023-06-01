@@ -12,13 +12,13 @@ def create_vacancies_table(it_vacancies, title):
             "Средняя зарплата",
         ]
     )
-    for statistic_item in it_vacancies:
+    for statistic_measure in it_vacancies:
         vacancies_table.append(
             [
-                statistic_item["language"],
-                statistic_item["vacancies_found"],
-                statistic_item["vacancies_processed"],
-                statistic_item["average_salary"],
+                statistic_measure["language"],
+                statistic_measure["vacancies_found"],
+                statistic_measure["vacancies_processed"],
+                statistic_measure["average_salary"],
             ]
         )
     jobs_table = AsciiTable(vacancies_table, title)

@@ -69,6 +69,7 @@ def calculate_average_salary_hh(vacancies):
         if salary:
             total_salary += salary
             vacancies_count += 1
+    average_salary = 0
     if vacancies_count:
         average_salary = total_salary / vacancies_count
     return vacancies_count, average_salary
@@ -97,12 +98,10 @@ def fetch_superjob_vacancies(language, secret_key):
             else:
                 raise ex
         response = response.json()
-        for item in response.get('objects'):
-            all_vacancies.append(item)
+        all_vacancies = [item for item in response.get('objects')]
         if not response.get('more'):
             break
-    if vacancies_count:
-        vacancies_found = response.get('total')
+    vacancies_found = response.get('total')
     return all_vacancies, vacancies_found
 
 
@@ -116,7 +115,9 @@ def calculate_average_salary_sj(vacancies):
         if salary:
             total_salary += salary
             vacancies_count += 1
-    average_salary = total_salary / vacancies_count
+    average_salary = 0
+    if vacancies_count:
+        average_salary = total_salary / vacancies_count
     return vacancies_count, average_salary
 
 
